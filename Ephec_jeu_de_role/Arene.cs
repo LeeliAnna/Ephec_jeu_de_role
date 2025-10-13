@@ -13,20 +13,20 @@ namespace Ephec_jeu_de_role
             do
             {
                 attaquant.Attaquer(cible);
-                if (cible.HP > 0) cible.Attaquer(attaquant);
+                if (cible.GetHP() > 0) cible.Attaquer(attaquant);
 
-                if (attaquant.HP <= 0)
+                if (attaquant.GetHP() <= 0)
                 {
                     cible.ToString();
-                    Console.WriteLine($"Le vainceur est {cible.Nom}.");
+                    Console.WriteLine($"Le vainceur est {cible.GetNom()}.");
                 }
-                else if (cible.HP <= 0)
+                else if (cible.GetHP() <= 0)
                 {
                     ToString();
-                    Console.WriteLine($"Le vainceur est {attaquant.Nom}.");
+                    Console.WriteLine($"Le vainceur est {attaquant.GetNom()}.");
                 }
             }
-            while (cible.HP >= 0 && attaquant.HP >= 0);
+            while (cible.GetHP() >= 0 && attaquant.GetHP() >= 0);
         }
     }
 }

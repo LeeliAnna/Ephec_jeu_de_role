@@ -9,30 +9,54 @@ namespace Ephec_jeu_de_role
 {
     internal class Hero
     {
-        private string _nom;
-        private string _hp;
-
-        public string Nom { get; private set; }
-        public int HP { get; private set; }
+        private string nom;
+        private int hp;
 
         private De deAttaque;
+        private Arme? arme;
 
-        public Hero(string nom, int hp)
+        public Hero(string nom, int hp, Arme? arme)
         {
-            Nom = nom;
-            HP = hp;
+            this.nom = nom;
+            this.hp = hp;
             deAttaque = new De(6);
+            if (arme != null) 
+            {
+                this.arme = new Arme(arme.GetNom(), arme.GetBonus());
+            }
         }
+
+        public Hero(string nom, int hp, string nomArme, int bonusArme)
+        {
+            this.nom = nom;
+            this.hp = hp;
+            deAttaque = new De(6);
+            arme = new Arme(nomArme, bonusArme);            
+        }
+
+        public string GetNom()
+        {
+            return nom;
+        }
+
+        public int GetHP()
+        {
+            return hp;
+        }
+
 
         public void Attaquer(Hero cible)
         {
             deAttaque.Lancer();
-            cible.HP -=  deAttaque.Lire();
+            if (arme != null) 
+            {
+                cible.hp -=  deAttaque.Lire() + arme.GetBonus();
+            }
         }
 
         public override string ToString() 
         {
-            return $"{Nom} : {HP} PV.";
+            return $"{nom} : {hp} PV.";
         }
 
         public void PropoquerEnDuel(Hero cible) 
@@ -40,20 +64,20 @@ namespace Ephec_jeu_de_role
             do
             {
                 Attaquer(cible);
-                if(cible.HP > 0) cible.Attaquer(this);
+                if(cible.hp > 0) cible.Attaquer(this);
 
-                if(HP <= 0)
+                if(hp <= 0)
                 {
                     cible.ToString();
-                    Console.WriteLine($"Le vainceur est {cible.Nom}.");
+                    Console.WriteLine($"Le vainceur est {cible.nom}.");
                 }
-                else if (cible.HP <= 0)
+                else if (cible.hp <= 0)
                 {
                     ToString();
-                    Console.WriteLine($"Le vainceur est {Nom}.");
+                    Console.WriteLine($"Le vainceur est {nom}.");
                 }
             }
-            while (cible.HP >= 0 && HP >= 0);
+            while (cible.hp >= 0 && hp >= 0);
         }
 
 
