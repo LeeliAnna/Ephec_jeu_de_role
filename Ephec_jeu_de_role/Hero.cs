@@ -12,7 +12,7 @@ namespace Ephec_jeu_de_role
         private string nom;
         private int hp;
 
-        private De deAttaque;
+        protected De deAttaque;
         private Arme? arme;
 
         public Hero(string nom, int hp, Arme? arme)
@@ -44,8 +44,14 @@ namespace Ephec_jeu_de_role
             return hp;
         }
 
+        public void PrendreDegats(int hp)
+        {
+            this.hp -= hp;
+            if (this.hp < 0) this.hp = 0;
+        }
 
-        public void Attaquer(Hero cible)
+
+        public virtual void Attaquer(Hero cible)
         {
             deAttaque.Lancer();
             if (arme != null) 
@@ -79,7 +85,5 @@ namespace Ephec_jeu_de_role
             }
             while (cible.hp >= 0 && hp >= 0);
         }
-
-
     }
 }
